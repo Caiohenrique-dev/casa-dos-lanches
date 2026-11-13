@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6A0DAD">
+    <title>Casa dos Lanches | Cardápio</title>
+    <meta name="description" content="Confira o cardápio da Casa dos Lanches. Hambúrgueres artesanais, combos, hot dogs, porções, batatas, bebidas e muito mais.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Casa dos Lanches">
+    <meta property="og:title" content="Casa dos Lanches | Cardápio">
+    <meta property="og:description" content="Confira nosso cardápio e escolha o seu lanche favorito!">
+    <meta property="og:url" content="https://caiohenrique-dev.github.io/casa-dos-lanches/">
+    <meta property="og:image" content="https://caiohenrique-dev.github.io/casa-dos-lanches/static/images/compartilhamento.png">
+    <meta property="og:image:secure_url" content="https://caiohenrique-dev.github.io/casa-dos-lanches/static/images/compartilhamento.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Casa dos Lanches - Cardápio Digital">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Casa dos Lanches | Cardápio">
+    <meta name="twitter:description" content="Confira nosso cardápio e escolha o seu lanche favorito!">
+    <meta name="twitter:image" content="https://caiohenrique-dev.github.io/casa-dos-lanches/static/images/compartilhamento.png">
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+            .categorias-lista {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+                align-items: center !important;
+                gap: 9px !important;
+                overflow: visible !important;
+                scrollbar-width: none;
+            }
+            .categoria-btn {
+                flex: 0 0 auto;
+            }
+            .categoria-conteudo {
+                display: none;
+            }
+            .categoria-conteudo.categoria-visivel {
+                display: block;
+            }
+            .adicionais-lista {
+                width: 100%;
+                margin-top: 30px;
+                padding-top: 20px;
+                border-top: 2px solid #ece6ef;
+            }
+            .adicionais-lista h3 {
+                margin: 0 0 10px;
+                color: #29242b;
+                font-size: 18px;
+                font-weight: 850;
+            }
+            .adicional-linha {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 15px;
+                padding: 11px 2px;
+                border-bottom: 1px solid #ece8ee;
+            }
+            .adicional-nome {
+                color: #333;
+                font-size: 14px;
+                font-weight: 600;
+            }
+            .adicional-preco {
+                flex-shrink: 0;
+                color: #6A0DAD;
+                font-size: 15px;
+                font-weight: 900;
+            }
+            .preco-combo {
+                margin-top: 7px !important;
+                padding: 0 !important;
+                background: transparent !important;
+                border: none !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .preco-combo .combo-label {
+                color: #111 !important;
+                font-size: 10px;
+                font-weight: 900;
+                text-transform: uppercase;
+            }
+            .preco-combo small {
+                color: #555 !important;
+                margin: 2px 0;
+                font-size: 10px;
+            }
+            .preco-combo strong {
+                color: #111 !important;
+                font-size: 17px;
+                font-weight: 900;
+            }
+            .preco-principal strong {
+                color: #6A0DAD !important;
+            }
+            @media (max-width: 600px) {
+                .categorias-lista {
+                    justify-content: flex-start !important;
+                    width: 100% !important;
+                    padding: 11px 8px !important;
+                    gap: 7px !important;
+                }
+                .categoria-btn {
+                    min-height: 42px;
+                    padding: 0 12px;
+                    font-size: 11px;
+                    white-space: nowrap;
+                }
+                .banner-seta {
+                    display: none !important;
+                }
+                .adicionais-lista {
+                    margin-top: 25px;
+                    padding-top: 17px;
+                }
+                .adicionais-lista h3 {
+                    font-size: 17px;
+                }
+                .adicional-linha {
+                    padding: 10px 2px;
+                }
+                .adicional-nome {
+                    font-size: 13px;
+                }
+                .adicional-preco {
+                    font-size: 14px;
+                }
+            }
+    </style>
+</head>
+<body>
+    <header class="topo">
+        <div class="topo-conteudo">
+            <img src="static/images/logo.png" alt="Casa dos Lanches" class="topo-logo">
+            <div class="topo-texto">
+                <h1>Casa dos Lanches</h1>
+                <p>Peça e saboreie!</p>
+            </div>
+        </div>
+    </header>
+    <section class="banner-area">
+        <div class="banner-carousel" id="bannerCarousel">
+            <div class="banner-slide ativo"><img src="static/images/banner1.png" alt="Casa dos Lanches"></div>
+            <div class="banner-slide"><img src="static/images/banner2.png" alt="Casa dos Lanches"></div>
+            <div class="banner-slide"><img src="static/images/banner3.png" alt="Casa dos Lanches"></div>
+            <button type="button" class="banner-seta banner-anterior" aria-label="Imagem anterior"><i class="fa-solid fa-chevron-left"></i></button>
+            <button type="button" class="banner-seta banner-proximo" aria-label="Próxima imagem"><i class="fa-solid fa-chevron-right"></i></button>
+            <div class="banner-indicadores" id="bannerIndicadores"></div>
+        </div>
+    </section>
+    <section class="intro-cardapio">
+        <span class="intro-mini">NOSSO CARDÁPIO</span>
+        <h2>Escolha sua categoria</h2>
+        <p>Encontre seu lanche favorito.</p>
+    </section>
+    <nav class="categorias-area">
+        <div class="categorias-lista">
+            <button type="button" class="categoria-btn ativo" data-categoria="categoria-1">Hambúrguer Artesanal</button>
+            <button type="button" class="categoria-btn" data-categoria="categoria-2">Combos</button>
+            <button type="button" class="categoria-btn" data-categoria="categoria-3">Porções</button>
+            <button type="button" class="categoria-btn" data-categoria="categoria-4">Batatas</button>
+            <button type="button" class="categoria-btn" data-categoria="categoria-5">Bebidas</button>
+        </div>
+    </nav>
+    <main class="cardapio">
+        <section id="categoria-1" class="categoria-conteudo categoria-visivel">
+            <div class="categoria-titulo">
+                <h2>Hambúrguer Artesanal</h2>
+                <span>16 itens</span>
+            </div>
+            <div class="produtos-grid">
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/f1555179-31fb-47b1-b08d-53405e3a699d.png" alt="Hambúrguer" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Hambúrguer</h3>
+                        <p class="produto-descricao">Pão e carne artesanal 70g.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 10.00</strong></div>
+                            <div class="preco-combo">
+                                <span class="combo-label">COMBO</span>
+                                <small>Batata + Guaravita</small>
+                                <strong>R$ 16.00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/x_burguer.png" alt="X-Burguer" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>X-Burguer</h3>
+                        <p class="produto-descricao">Pão, carne artesanal 70g, cheddar e batata palha.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 12.00</strong></div>
+                            <div class="preco-combo">
+                                <span class="combo-label">COMBO</span>
+                                <small>Batata + Guaravita</small>
+                                <strong>R$ 18.00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/dfhgad.png" alt="X-Salada" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>X-Salada</h3>
+                        <p class="produto-descricao">Pão, carne artesanal 70g, salada, cheddar e batata palha.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 14.00</strong></div>
+                            <div class="preco-combo">
+                                <span class="combo-label">COMBO</span>
+                                <small>Batata + Guaravita</small>
+                                <strong>R$ 20.00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/1e28c2d3-7ac4-468a-930f-1fba43604b3f.png" alt="X-Egg" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>X-Egg</h3>
+                        <p class="produto-descricao">Pão, carne artesanal 70g, ovo, cheddar e batata palha.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 15.00</strong></div>
+                            <div class="preco-combo">
+                                <span class="combo-label">COMBO</span>
+                                <small>Batata + Guaravita</small>
+                                <strong>R$ 21.00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/587B2A68D0B454B42516D95CAD1E21683B1FDA8CA9764EB18989B571071D7033.jpg" alt="X-Bacon" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>X-Bacon</h3>
+                        <p class="produto-descricao">Pão, carne artesanal 70g, bacon, cheddar e batata palha.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 17.00</strong></div>
+                            <div class="preco-combo">
+                                <span class="combo-label">COMBO</span>
+                                <small>Batata + Guaravita</small>
+                                <strong>R$ 23.00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/527c3e65-149e-4bfd-9a73-2a9d3ce61d4a.png" alt="X-Tudo" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>X-Tudo</h3>
+                        <p class="produto-descricao">Pão, carne artesanal 70g, ovo, bacon, salada, cheddar, presunto e batata palha.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 19.00</strong></div>
+                            <div class="preco-combo">
+                                <span class="combo-label">COMBO</span>
+                                <small>Batata + Guaravita</small>
+                                <strong>R$ 25.00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/frango.webp" alt="X-Frango" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>X-Frango</h3>
+                        <p class="produto-descricao">Pão, frango grelhado, cheddar e batata palha.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 16.00</strong></div>
+                            <div class="preco-combo">
+                                <span class="combo-label">COMBO</span>
+                                <small>Batata + Guaravita</small>
+                                <strong>R$ 22.00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/1d64bebd-d1a0-4bc6-aa16-be1ed42a7b94.png" alt="Da Casa" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Da Casa</h3>
+                        <p class="produto-descricao">Pão, 2 carnes, 2 ovos, bacon, 2 cheddars, presunto, calabresa, cebola roxa, salada.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 29.00</strong></div>
+                            <div class="preco-combo">
+                                <span class="combo-label">COMBO</span>
+                                <small>Batata + Guaravita</small>
+                                <strong>R$ 35.00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/che.webp" alt="Double Cheddar" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Double Cheddar</h3>
+                        <p class="produto-descricao">Pão, 2 carnes artesanais, 2 camadas de cheddar, cebola roxa, bacon.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 21.00</strong></div>
+                            <div class="preco-combo">
+                                <span class="combo-label">COMBO</span>
+                                <small>Batata + Guaravita</small>
+                                <strong>R$ 27.00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/unnamed.jpg" alt="Double Cheddar 2" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Double Cheddar 2</h3>
+                        <p class="produto-descricao">Pão, 2 carnes artesanais, 2 camadas de cheddar, anel de cebola, bacon.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 23.00</strong></div>
+                            <div class="preco-combo">
+                                <span class="combo-label">COMBO</span>
+                                <small>Batata + Guaravita</small>
+                                <strong>R$ 29.00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/Receita-de-cheddar-1024x683.jpg" alt="Cheddar Burguer" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Cheddar Burguer</h3>
+                        <p class="produto-descricao">Pão, carne artesanal 120g, cheddar super cremoso e bacon.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 26.00</strong></div>
+                            <div class="preco-combo">
+                                <span class="combo-label">COMBO</span>
+                                <small>Batata + Cheddar+ Bacon Crocante+ Guaravita</small>
+                                <strong>R$ 32.00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/uuu.jpg" alt="Texas Burguer" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Texas Burguer</h3>
+                        <p class="produto-descricao">Pão, carne artesanal 120g, 2 camadas de cheddar, bacon e cebola caramelizada.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 26.00</strong></div>
+                            <div class="preco-combo">
+                                <span class="combo-label">COMBO</span>
+                                <small>Batata + Guaravita</small>
+                                <strong>R$ 32.00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/kjkj.jpg" alt="American Burguer" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>American Burguer</h3>
+                        <p class="produto-descricao">Pão, carne artesanal 120g, bacon, cheddar e chutney de abacaxi.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 27.00</strong></div>
+                            <div class="preco-combo">
+                                <span class="combo-label">COMBO</span>
+                                <small>Batata + Guaravita</small>
+                                <strong>R$ 33.00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/pppp.jpg" alt="Nordestino Burguer" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Nordestino Burguer</h3>
+                        <p class="produto-descricao">Pão de brioche, mussarela, carne artesanal 120g e carne seca desfiada.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 28.00</strong></div>
+                            <div class="preco-combo">
+                                <span class="combo-label">COMBO</span>
+                                <small>Batata + Guaravita</small>
+                                <strong>R$ 34.00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/oooo.jpg" alt="Supremo Cheddar" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Supremo Cheddar</h3>
+                        <p class="produto-descricao">Pão, carne artesanal 120g, bacon e cheddar, mergulhado em cheddar cremoso.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 29.00</strong></div>
+                            <div class="preco-combo">
+                                <span class="combo-label">COMBO</span>
+                                <small>Batata + Cheddar + Bacon Crocante + Guaravita</small>
+                                <strong>R$ 35.00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/7C343472-5BF2-422F-A673-0685294F3693.png" alt="Australiano " class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Australiano</h3>
+                        <p class="produto-descricao">Pão australiano, 2 carnes, 2 fatias de cheddar, bacon, cebola caramelizada e batata palha</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 30.00</strong></div>
+                            <div class="preco-combo">
+                                <span class="combo-label">COMBO</span>
+                                <small>Batata + guaravita</small>
+                                <strong>R$ 36.00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="adicionais-lista">
+                <h3>Adicionais</h3>
+                <div class="adicional-linha">
+                    <span class="adicional-nome">Adc: Salada / Ovo / Bacon</span>
+                    <strong class="adicional-preco">R$ 3.00</strong>
+                </div>
+                <div class="adicional-linha">
+                    <span class="adicional-nome">Adc: Cebola Roxa / Anel de Cebola</span>
+                    <strong class="adicional-preco">R$ 3.00</strong>
+                </div>
+                <div class="adicional-linha">
+                    <span class="adicional-nome">Adc: Cebola Caramelizada</span>
+                    <strong class="adicional-preco">R$ 3.00</strong>
+                </div>
+                <div class="adicional-linha">
+                    <span class="adicional-nome">Adc: Chutney</span>
+                    <strong class="adicional-preco">R$ 4.00</strong>
+                </div>
+                <div class="adicional-linha">
+                    <span class="adicional-nome">Adc: Carne 70g</span>
+                    <strong class="adicional-preco">R$ 5.00</strong>
+                </div>
+                <div class="adicional-linha">
+                    <span class="adicional-nome">Adc: Carne 120g</span>
+                    <strong class="adicional-preco">R$ 10.00</strong>
+                </div>
+            </div>
+        </section>
+        <section id="categoria-2" class="categoria-conteudo">
+            <div class="categoria-titulo">
+                <h2>Combos</h2>
+                <span>2 itens</span>
+            </div>
+            <div class="produtos-grid">
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/rsrs.jpg" alt="Combo Brasil" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Combo Brasil</h3>
+                        <p class="produto-descricao">1 X-Bacon + 1 X-Tudo + Porção Anel de Cebola + Porção Batata c/ Cheddar.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 66.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/yyy.jpg" alt="Combo Família" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Combo Família</h3>
+                        <p class="produto-descricao">4 X-Tudo + 1 Porção de Fritas + 1 Refri 1.5L.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 98.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+        <section id="categoria-3" class="categoria-conteudo">
+            <div class="categoria-titulo">
+                <h2>Porções</h2>
+                <span>2 itens</span>
+            </div>
+            <div class="produtos-grid">
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/frg.jpg" alt="Frango Empanado (300g)" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Frango Empanado (300g)</h3>
+                        <p class="produto-descricao">Iscas de frango empanado.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 28.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/cev.jpg" alt="Anel de Cebola (200g)" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Anel de Cebola (200g)</h3>
+                        <p class="produto-descricao">Onion rings crocantes.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 15.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+        <section id="categoria-4" class="categoria-conteudo">
+            <div class="categoria-titulo">
+                <h2>Batatas</h2>
+                <span>11 itens</span>
+            </div>
+            <div class="produtos-grid">
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/btr.jpg" alt="Batata Simples" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Batata Simples</h3>
+                        <p class="produto-descricao">300g.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 18.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/cccccccccccccc.jpg" alt="Batata c/ Queijo Ralado" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Batata c/ Queijo Ralado</h3>
+                        <p class="produto-descricao">300g.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 21.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/1245.jpg" alt="Batata c/ Cheddar" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Batata c/ Cheddar</h3>
+                        <p class="produto-descricao">300g.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 21.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/-0.jpg" alt="Batata c/ Catupiry" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Batata c/ Catupiry</h3>
+                        <p class="produto-descricao">300g.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 21.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/desfiado.jpg" alt="Batata c/ Frango Desfiado" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Batata c/ Frango Desfiado</h3>
+                        <p class="produto-descricao">300g.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 23.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/cala.jpg" alt="Batata c/ Calabresa" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Batata c/ Calabresa</h3>
+                        <p class="produto-descricao">300g.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 23.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/jpg" alt="Batata c/ Bacon" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Batata c/ Bacon</h3>
+                        <p class="produto-descricao">300g.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 23.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/bvfdw.jpg" alt="Batata c/ Cheddar + Bacon" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Batata c/ Cheddar + Bacon</h3>
+                        <p class="produto-descricao">300g.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 25.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/8mkl.jpg" alt="Batata c/ Cheddar + Catupiry" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Batata c/ Cheddar + Catupiry</h3>
+                        <p class="produto-descricao">300g.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 25.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/333333333333333.jpg" alt="Batata c/ Cheddar + Calabresa" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Batata c/ Cheddar + Calabresa</h3>
+                        <p class="produto-descricao">300g.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 25.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/vovo.jpg" alt="Batata c/ Frango + Catupiry" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Batata c/ Frango + Catupiry</h3>
+                        <p class="produto-descricao">300g.</p>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 25.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+        <section id="categoria-5" class="categoria-conteudo">
+            <div class="categoria-titulo">
+                <h2>Bebidas</h2>
+                <span>16 itens</span>
+            </div>
+            <div class="produtos-grid">
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/Agua-Tonica-Antarctica-350ml-com-12-Unidades-1024x1024.jpg" alt="Água Tônica" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Água Tônica</h3>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 6.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/OIP.webp" alt="Água Mineral" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Água Mineral</h3>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 2.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/308420-17-02-2023-13-21-42-947.jpg" alt="Água c/ Gás" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Água c/ Gás</h3>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 4.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/e080b481683842ecc3d90f7e3bee85fc.webp" alt="H2O" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>H2O</h3>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 6.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/de163503ef44b2a6f98823808dec4084.webp" alt="Guaravita" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Guaravita</h3>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 2.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/BEBIDAGUARAVITON500MLACAI1.webp" alt="Guaraviton" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Guaraviton</h3>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 5.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/l-c8e2f8713c9e43068e14f0bec28f40ac.jpg" alt="Guaranita 600ml" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Guaranita 600ml</h3>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 6.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/l-c8e2f8713c9e43068e14f0bec28f40ac.jpg" alt="Guaranita 2L" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Guaranita 2L</h3>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 10.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/12059740.webp" alt="Coca-Cola Lata" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Coca-Cola Lata</h3>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 6.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/comun-600.jpg" alt="Coca-Cola 600ml" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Coca-Cola 600ml</h3>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 8.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/7801610001622-1.webp" alt="Coca-Cola 1.5L" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Coca-Cola 1.5L</h3>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 12.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/refrigerante_coca_cola_2_5l_307_1_73c23147c7cb67844b6f6b0f6a3c2cc5.webp" alt="Coca-Cola 2.25L" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Coca-Cola 2.25L</h3>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 15.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/l-d427f9ea03af4adf8fdde95c3d8d2118.png" alt="Fanta Uva/Laranja" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Fanta Uva/Laranja</h3>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 10.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/refrigerante_guarana_antarctica_2l_24445_1_657da8c303d500f1f61fb9241fc612fc.webp" alt="Guaraná 1.5L" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Guaraná 1.5L</h3>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 10.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/refrigerante_guarana_antarctica_2l_24445_1_657da8c303d500f1f61fb9241fc612fc.webp" alt="Guaraná 2L" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Guaraná 2L</h3>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 13.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="produto-card">
+                    <div class="produto-imagem-area">
+                        <img src="static/uploads/B48E42BF-65BB-41EB-91B1-6E2504FB128F.png" alt="Mineirinho 350ml" class="produto-imagem">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Mineirinho 350ml</h3>
+                        <div class="produto-precos">
+                            <div class="preco-principal"><strong>R$ 5.00</strong></div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+    <a href="https://wa.me/5524981114649?text=Ol%C3%A1%21%20Gostaria%20de%20fazer%20um%20pedido." class="whatsapp-flutuante" target="_blank" rel="noopener" aria-label="Fazer pedido pelo WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+    <footer class="footer">
+        <img src="static/images/logo.png" alt="Casa dos Lanches" class="footer-logo">
+        <strong class="footer-nome">Casa dos Lanches</strong>
+        <p class="footer-frase">Peça e saboreie!</p>
+        <a href="https://wa.me/5524981114649" target="_blank" rel="noopener" class="footer-whatsapp"><i class="fa-brands fa-whatsapp"></i> (24) 98111-4649</a>
+        <div class="footer-divisor"></div>
+        <p class="footer-desenvolvido">Desenvolvido por <a href="https://www.instagram.com/fluxosystems/" target="_blank" rel="noopener" class="footer-fluxo">Fluxo Systems</a></p>
+        <p class="footer-copy">© 2026 Casa dos Lanches.</p>
+    </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const botoesCategoria = document.querySelectorAll(".categoria-btn");
+            const categoriasConteudo = document.querySelectorAll(".categoria-conteudo");
+            botoesCategoria.forEach(function (botao) {
+                botao.addEventListener("click", function () {
+                    const categoriaEscolhida = botao.dataset.categoria;
+                    botoesCategoria.forEach(item => item.classList.remove("ativo"));
+                    botao.classList.add("ativo");
+                    categoriasConteudo.forEach(categoria => categoria.classList.remove("categoria-visivel"));
+                    const alvo = document.getElementById(categoriaEscolhida);
+                    if (alvo) alvo.classList.add("categoria-visivel");
+                });
+            });
+            const carousel = document.getElementById("bannerCarousel");
+            if (!carousel) return;
+            const slides = carousel.querySelectorAll(".banner-slide");
+            if (slides.length <= 1) return;
+            const botaoAnterior = carousel.querySelector(".banner-anterior");
+            const botaoProximo = carousel.querySelector(".banner-proximo");
+            const indicadores = document.getElementById("bannerIndicadores");
+            let slideAtual = 0;
+            let intervalo;
+            slides.forEach(function (slide, index) {
+                const indicador = document.createElement("button");
+                indicador.type = "button";
+                indicador.className = "banner-indicador";
+                indicador.setAttribute("aria-label", "Ir para imagem " + (index + 1));
+                if (index === 0) indicador.classList.add("ativo");
+                indicador.addEventListener("click", function () {
+                    mostrarSlide(index);
+                    reiniciarAutomatico();
+                });
+                indicadores.appendChild(indicador);
+            });
+            function mostrarSlide(index) {
+                const pontos = indicadores.querySelectorAll(".banner-indicador");
+                slides[slideAtual].classList.remove("ativo");
+                pontos[slideAtual]?.classList.remove("ativo");
+                slideAtual = index;
+                if (slideAtual >= slides.length) slideAtual = 0;
+                if (slideAtual < 0) slideAtual = slides.length - 1;
+                slides[slideAtual].classList.add("ativo");
+                pontos[slideAtual]?.classList.add("ativo");
+            }
+            function proximoSlide() { mostrarSlide(slideAtual + 1); }
+            function slideAnterior() { mostrarSlide(slideAtual - 1); }
+            function iniciarAutomatico() { intervalo = setInterval(proximoSlide, 5000); }
+            function reiniciarAutomatico() {
+                clearInterval(intervalo);
+                iniciarAutomatico();
+            }
+            if (botaoAnterior) {
+                botaoAnterior.addEventListener("click", function () {
+                    slideAnterior();
+                    reiniciarAutomatico();
+                });
+            }
+            if (botaoProximo) {
+                botaoProximo.addEventListener("click", function () {
+                    proximoSlide();
+                    reiniciarAutomatico();
+                });
+            }
+            let inicioX = 0;
+            carousel.addEventListener("touchstart", function (event) {
+                inicioX = event.changedTouches[0].screenX;
+            }, { passive: true });
+            carousel.addEventListener("touchend", function (event) {
+                const finalX = event.changedTouches[0].screenX;
+                const distancia = finalX - inicioX;
+                if (Math.abs(distancia) < 40) return;
+                if (distancia < 0) proximoSlide();
+                else slideAnterior();
+                reiniciarAutomatico();
+            }, { passive: true });
+            iniciarAutomatico();
+        });
+    </script>
+</body>
+</html>
